@@ -1,0 +1,26 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm install && nodemon index",
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4",
+    "nodemon": "^1.12.0",
+    "parse-server": "^2.6.1"
+  },
+  "devDependencies": {
+    "request-promise": "^4.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.nearshoresystems.com:carlos.parra/alaska-api.git"
+  },
+  "description": ""
+}

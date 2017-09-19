@@ -1,0 +1,61 @@
+version: "3.1"
+services:
+  api-prod:
+    container_name: api-prod
+    build:
+      context: ./api
+      args:
+        ports_expose: 8080 8081 8082 8083
+        supervisor: supervisor-prod.conf
+    networks:
+      - backend
+    volumes:
+      - /mnt/logs/api:/logs
+    environment:
+      NODE_ENV: production
+      PARSE_SERVER_LOGS_FOLDER: /logs
+    depends_on:
+      - api-mongo-prod
+  api-mongo-prod:
+    container_name: api-mongo-prod
+    image: mongo
+    volumes:
+      - /mnt/api/data/db:/data/db
+    networks:
+      - backend
+  api-haproxy:
+    container_name: api-haproxy-prod
+    build:
+      context: ./haproxy
+      args:
+        ports_expose: 80
+        haproxy: haproxy-prod.cfg
+    ports:
+      - "80:80"
+    volumes:
+      - /mnt/logs/haproxy:/logs
+    networks:
+      - backend
+    depends_on:
+      - api-prod
+  api-parse-dashboard-prod:
+    container_name: api-parse-dashboard-prod
+    image: yongjhih/parse-dashboard
+    environment:
+      PARSE_DASHBOARD_SERVER_URL: "http://localhost/parse/1"
+      PARSE_DASHBOARD_APP_ID: "apiIdPROD"
+      PARSE_DASHBOARD_MASTER_KEY: "masterKeyPROD"
+      PARSE_DASHBOARD_APP_NAME: "(local) Api"
+      PARSE_DASHBOARD_ALLOW_INSECURE_HTTP: 1
+      PARSE_DASHBOARD_USER_ID: "api"
+      PARSE_DASHBOARD_USER_PASSWORD: "password"
+      PORT: 4040
+    ports:
+      - "4040:4040"
+    networks:
+      - backend
+    depends_on:
+      - api-mongo-prod
+networks:
+  backend:
+    driver: bridge
