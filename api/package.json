@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "index.js",
   "scripts": {
     "dev": "npm install && nodemon index",
@@ -19,7 +19,7 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git@git.nearshoresystems.com:carlos.parra/alaska-api.git"
+    "url": ""
   },
   "description": ""
 }
